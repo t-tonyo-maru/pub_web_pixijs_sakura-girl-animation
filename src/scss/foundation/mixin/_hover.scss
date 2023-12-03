@@ -1,0 +1,13 @@
+@use './media-query-with-tab' as *;
+
+@mixin hoverEffect {
+  @media (any-hover: hover) {
+    &:hover {
+      opacity: 0.75;
+      transition: opacity 0.3s;
+      @include sp {
+        opacity: 1;
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+%anim-rotate {
+  animation: rotate 2s infinite normal linear;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotateZ(0);
+  }
+
+  100% {
+    transform: rotateZ(360deg);
+  }
+}

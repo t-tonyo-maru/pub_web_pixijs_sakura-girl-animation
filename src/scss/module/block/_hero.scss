@@ -1,0 +1,10 @@
+// @use '../../foundation/variable/color' as *;
+// @use '../../foundation/variable/size' as *;
+// @use '../../foundation/mixin/media-query-with-tab' as *;
+
+.bl_hero {
+  background-color: skyblue;
+
+  min-height: 100vh; /* Fallback */
+  min-height: calc(var(--vh, 1vh) * 100);
+}
