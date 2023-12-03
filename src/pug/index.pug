@@ -1,0 +1,12 @@
+extends ./_base/_layout
+block append vars
+  - var path = './';
+block title
+  title= title
+block append meta
+block append link
+  link(rel="stylesheet" href=`${path}assets/css/style.css`)
+block body
+  .pixi
+block append script
+  script(src=`${path}assets/js/main.js`)

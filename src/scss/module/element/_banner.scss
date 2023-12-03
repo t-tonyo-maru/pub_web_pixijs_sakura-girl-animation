@@ -1,0 +1,8 @@
+@use '../../foundation/variable/color' as *;
+
+.el_banner {
+  background-color: $colorKey;
+  color: #fff;
+  height: 50px;
+  width: 50px;
+}

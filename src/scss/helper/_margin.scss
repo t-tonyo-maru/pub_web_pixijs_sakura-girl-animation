@@ -1,0 +1,15 @@
+$directions: 'top', 'right', 'bottom', 'left';
+
+@each $d in $directions {
+  @for $i from 0 through 20 {
+    .hp_m#{str-slice($d,1,1)}#{$i * 5} {
+      margin-#{$d}: #{$i * 5}px !important;
+    }
+
+    @if $i != 0 {
+      .hp_M#{to-upper-case(str-slice($d,1,1))}#{$i * 5} {
+        margin-#{$d}: #{$i * -5}px !important;
+      }
+    }
+  }
+}

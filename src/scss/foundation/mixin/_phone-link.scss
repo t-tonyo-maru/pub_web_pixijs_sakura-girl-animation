@@ -1,0 +1,12 @@
+@use '../variable/size' as *;
+
+// PC・タブにおける電話番号リンクの無効化するmixin
+// 引数は無効化する最小の画面幅
+@mixin set-disable-phone-link-in-sp($min: $tabMinWidth) {
+  @media only screen and (min-width: #{$min}) {
+    a[href^='tel:'] {
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+}

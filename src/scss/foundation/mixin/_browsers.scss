@@ -1,0 +1,6 @@
+// edge
+@mixin edge() {
+  @supports (-ms-ime-align: auto) {
+    @content;
+  }
+}
