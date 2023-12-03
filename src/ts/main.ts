@@ -19,6 +19,11 @@ const MAX_PARTICLE_COUNT = 100
 // coefficient
 const SCALE_PHASE_COEFFICIENT = 0.16
 const POSITOIN_PHASE_COEFFICIENT = 3
+// assets url
+const assetsUrl =
+  process.env.NODE_ENV === 'production'
+    ? '/pub_web_pixijs_sakura-girl-animation/assets'
+    : '/assets'
 // sort children flag
 let isSort = false
 let spineAnimationHeight = 0
@@ -41,15 +46,10 @@ window.onload = async () => {
 
   // background
   const aspectRatio = app.screen.width / app.screen.height
-  const background = PIXI.Sprite.from('/assets/images/background.jpg')
+  const background = PIXI.Sprite.from(`${assetsUrl}/images/background.jpg`)
   background.anchor.set(0.5)
   background.position.set(app.screen.width / 2, app.screen.height / 2)
   background.scale.set(aspectRatio >= 1 ? aspectRatio : 1 / aspectRatio)
-
-  // sample character
-  // const character = PIXI.Sprite.from('/assets/images/character.png')
-  // character.anchor.set(0.5, 1)
-  // character.position.set(app.screen.width / 2, app.screen.height)
 
   // sakura particle
   const particleContainer = new PIXI.ParticleContainer(MAX_PARTICLE_COUNT, {
@@ -60,7 +60,9 @@ window.onload = async () => {
     alpha: true
   })
   const partilces: Sakura[] = []
-  const sakuraTexture = PIXI.Texture.from('/assets/images/sakura_hanabira.png')
+  const sakuraTexture = PIXI.Texture.from(
+    `${assetsUrl}/images/sakura_hanabira.png`
+  )
   for (let i = 0; i < MAX_PARTICLE_COUNT; i++) {
     const scalePhase = Math.random() * Math.PI * 2
 
@@ -87,7 +89,9 @@ window.onload = async () => {
   }
 
   // spineAnimation
-  const spineAnimation = await PIXI.Assets.load('/assets/spine-data/model.json')
+  const spineAnimation = await PIXI.Assets.load(
+    `${assetsUrl}/spine-data/model.json`
+  )
     .then((res) => {
       const animation = new Spine(res.spineData)
 
@@ -130,7 +134,6 @@ window.onload = async () => {
   container.filters = [godrayFilter]
 
   container.addChild(background as PIXI.DisplayObject)
-  // container.addChild(character as PIXI.DisplayObject)
   container.addChild(particleContainer as PIXI.DisplayObject)
   container.addChild(spineAnimation as PIXI.DisplayObject)
   app.stage.addChild(container as PIXI.DisplayObject)
