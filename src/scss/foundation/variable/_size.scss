@@ -1,0 +1,24 @@
+/* --------------------
+        size
+-------------------- */
+
+// device
+$spDesignWidth: 750;
+
+$spMaxWidth: 568px;
+$tabMinWidth: $spMaxWidth + 1;
+$tabMaxWidth: 1024px;
+
+// space
+$basicSpace: 40px;
+$spaceSm: $basicSpace * 0.5;
+$spaceMd: $basicSpace;
+$spaceLg: $basicSpace * 1.5;
+$spaceXl: $basicSpace * 2;
+
+// gutter
+$basicGatter: 40px;
+$gatterSm: $basicGatter * 0.5;
+$gatterMd: $basicGatter;
+$gatterLg: $basicGatter * 1.5;
+$gatterXl: $basicGatter * 2;

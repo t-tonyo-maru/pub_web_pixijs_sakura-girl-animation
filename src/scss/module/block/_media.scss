@@ -1,0 +1,71 @@
+@use '../../foundation/variable/size' as *;
+@use '../../foundation/mixin/media-query-with-tab' as *;
+@use '../../foundation/function/rem' as *;
+
+.bl_media {
+  display: flex;
+  align-items: center;
+  margin-top: $spaceMd;
+
+  @include sp {
+    display: block;
+  }
+
+  &_imgWrapper {
+    flex: 0 1 27.58333%;
+    margin-right: 3.33333%;
+
+    @include sp {
+      margin-bottom: 20px;
+      margin-right: 0;
+    }
+
+    & > img {
+      width: 100%;
+    }
+  }
+
+  &_body {
+    flex: 1;
+    & > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &_ttl {
+    font-size: rem(18);
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+
+  &_txt {
+    margin-bottom: 20px;
+  }
+
+  // .bl_media__rev 画像・テキスト 反転
+  $parent: &;
+  &#{&}__rev {
+    flex-direction: row-reverse;
+
+    #{$parent}_imgWrapper {
+      margin-left: 0;
+    }
+    #{$parent}_body {
+      margin-right: 3.33333%;
+      text-align: right;
+
+      @include sp {
+        margin-right: 0;
+      }
+    }
+  }
+
+  // .el_btn
+  .el_btn {
+    @include sp {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}

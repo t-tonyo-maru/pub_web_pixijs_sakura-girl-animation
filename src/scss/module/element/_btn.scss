@@ -1,0 +1,67 @@
+@use '../../foundation/variable/color' as *;
+@use '../../foundation/function/rem' as *;
+
+.el_btn {
+  background-color: $colorKey;
+  border: 2px solid transparent;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: rem(16);
+  max-width: 100%;
+  outline: none;
+  padding: 20px 10px;
+  text-align: center;
+  text-decoration: none;
+  transition: 0.25s;
+  width: 100%;
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: #fff;
+      border-color: currentColor;
+      color: $colorKey;
+    }
+  }
+
+  &:active {
+    background-color: $colorKey;
+    color: #fff;
+  }
+
+  &#{&}__round {
+    border-radius: 10px;
+  }
+
+  &#{&}__large {
+    font-size: rem(20);
+    font-weight: bold;
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+
+  &#{&}__waring {
+    background-color: #ffdb4a;
+    border-color: #ffdb4a;
+    color: rgba(0, 0, 0, 0.7);
+
+    @media (any-hover: hover) {
+      &:hover {
+        background-color: #fff;
+        color: #ffdb4a;
+      }
+    }
+
+    &:active {
+      background-color: #ffdb4a;
+      color: rgba(0, 0, 0, 0.7);
+    }
+  }
+
+  &:disabled {
+    background-color: $colorGray;
+    border-color: $colorGray;
+    color: $colorWhite;
+    cursor: not-allowed;
+  }
+}

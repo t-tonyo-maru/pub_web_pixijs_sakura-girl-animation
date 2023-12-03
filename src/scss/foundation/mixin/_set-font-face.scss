@@ -1,0 +1,26 @@
+// font-face生成用mixin
+@mixin set-font-face(
+  $name,
+  $path,
+  $weight: 400,
+  $style: normal,
+  $exts: woff2 woff
+) {
+  $src: null;
+
+  @each $ext in $exts {
+    $src: append(
+      $src,
+      url(quote(#{$path} + '.' + #{$ext})) format(quote($ext)),
+      comma
+    );
+  }
+
+  @font-face {
+    font-family: quote($name);
+    font-style: $style;
+    font-weight: $weight;
+    src: $src;
+    font-display: fallback; // web-fontが読み込まれるまで短いブロック時間・短いスワップ時間を設定する
+  }
+}

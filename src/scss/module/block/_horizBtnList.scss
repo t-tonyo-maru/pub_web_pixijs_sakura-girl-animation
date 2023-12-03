@@ -1,0 +1,25 @@
+@use '../../foundation/variable/size' as *;
+
+.bl_horizBtnList {
+  display: flex;
+  justify-content: center;
+  margin-top: $spaceMd;
+
+  & > *:last-child {
+    margin-right: 0;
+  }
+
+  & > li {
+    flex: 1 1 0;
+    max-width: 300px;
+    margin-right: 20px;
+  }
+
+  .el_btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+}
