@@ -25,7 +25,7 @@ const assetsUrl =
     ? '/pub_web_pixijs_sakura-girl-animation/assets'
     : '/assets'
 // sort children flag
-let isSort = false
+let isSakuraFront = true
 let spineAnimationHeight = 0
 
 // Links
@@ -164,12 +164,12 @@ window.onload = async () => {
     spineParameters: {
       action: true
     },
-    sortChildren: {
-      sort: false
+    sortParameters: {
+      isSakuraFront: isSakuraFront
     }
   }
   // paramter
-  const godrayFilterFolder = gui.addFolder('godrayFilter')
+  const godrayFilterFolder = gui.addFolder('godray filter')
   godrayFilterFolder.add(guiObject.godrayParameter, 'show')
   godrayFilterFolder.add(guiObject.godrayParameter, 'gain', 0, 1, 0.001)
   godrayFilterFolder.add(guiObject.godrayParameter, 'lacunarity', 0, 5, 0.001)
@@ -194,8 +194,8 @@ window.onload = async () => {
   sakuraFolder.add(guiObject.sakuraParameters, 'show')
   const spineFolder = gui.addFolder('spine')
   spineFolder.add(guiObject.spineParameters, 'action')
-  const sortChildrenFolder = gui.addFolder('sort children')
-  sortChildrenFolder.add(guiObject.sortChildren, 'sort')
+  const sortParametersFolder = gui.addFolder('sort')
+  sortParametersFolder.add(guiObject.sortParameters, 'isSakuraFront')
 
   // animation
   app.ticker.add((delta) => {
@@ -265,15 +265,15 @@ window.onload = async () => {
     }
 
     // gui: zIndex sort
-    if (guiObject.sortChildren.sort !== isSort) {
-      isSort = guiObject.sortChildren.sort
+    if (guiObject.sortParameters.isSakuraFront !== isSakuraFront) {
+      isSakuraFront = guiObject.sortParameters.isSakuraFront
 
-      if (isSort) {
-        if (spineAnimation) spineAnimation.zIndex = 2
-        particleContainer.zIndex = 1
-      } else {
+      if (isSakuraFront) {
         if (spineAnimation) spineAnimation.zIndex = 1
         particleContainer.zIndex = 2
+      } else {
+        if (spineAnimation) spineAnimation.zIndex = 2
+        particleContainer.zIndex = 1
       }
     }
   })
