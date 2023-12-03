@@ -25,7 +25,7 @@ const assetsUrl =
     ? '/pub_web_pixijs_sakura-girl-animation/assets'
     : '/assets'
 // sort children flag
-let isSort = false
+let isSakuraFront = true
 let spineAnimationHeight = 0
 
 // Links
@@ -80,10 +80,10 @@ window.onload = async () => {
 
     partilces.push({
       sprite: sakuraSprite,
-      speed: Math.random() * 2 + randRange(0.1, 1), // ランダムな速度
-      rotationSpeed: Math.random() * 0.01, // ランダムな回転速度
-      positionPhase: Math.random() * Math.PI * 2, // ランダムな位相
-      scalePhase // ランダムな位相
+      speed: Math.random() * 2 + randRange(0.1, 1), // random speed
+      rotationSpeed: Math.random() * 0.01, // random rotation speed
+      positionPhase: Math.random() * Math.PI * 2, // random position phase
+      scalePhase // random scale
     })
     particleContainer.addChild(partilces[i].sprite)
   }
@@ -97,7 +97,7 @@ window.onload = async () => {
 
       // position.set
       animation.x = app.screen.width / 2
-      animation.y = app.screen.height + 2 // TIPS: アニメーションの粗を隠すため、+2 しています
+      animation.y = app.screen.height + 2 // TIPS: +2 is to hide mistake in Spine Animation
 
       // animation set
       animation.state.setAnimation(0, 'idle', true)
@@ -107,7 +107,7 @@ window.onload = async () => {
       // initial height
       spineAnimationHeight = animation.height
 
-      // initial height
+      // fix scale
       const scaleRatio = 1 / (spineAnimationHeight / (app.screen.height * 0.8))
       animation.scale.set(scaleRatio >= 1 ? 1 : scaleRatio)
 
@@ -138,7 +138,7 @@ window.onload = async () => {
   container.addChild(spineAnimation as PIXI.DisplayObject)
   app.stage.addChild(container as PIXI.DisplayObject)
 
-  // sort
+  // zIndex sort
   if (spineAnimation) spineAnimation.zIndex = 1
   particleContainer.zIndex = 2
 
@@ -164,12 +164,12 @@ window.onload = async () => {
     spineParameters: {
       action: true
     },
-    sortChildren: {
-      sort: false
+    sortParameters: {
+      isSakuraFront: isSakuraFront
     }
   }
   // paramter
-  const godrayFilterFolder = gui.addFolder('godrayFilter')
+  const godrayFilterFolder = gui.addFolder('godray filter')
   godrayFilterFolder.add(guiObject.godrayParameter, 'show')
   godrayFilterFolder.add(guiObject.godrayParameter, 'gain', 0, 1, 0.001)
   godrayFilterFolder.add(guiObject.godrayParameter, 'lacunarity', 0, 5, 0.001)
@@ -194,8 +194,8 @@ window.onload = async () => {
   sakuraFolder.add(guiObject.sakuraParameters, 'show')
   const spineFolder = gui.addFolder('spine')
   spineFolder.add(guiObject.spineParameters, 'action')
-  const sortChildrenFolder = gui.addFolder('sort children')
-  sortChildrenFolder.add(guiObject.sortChildren, 'sort')
+  const sortParametersFolder = gui.addFolder('sort')
+  sortParametersFolder.add(guiObject.sortParameters, 'isSakuraFront')
 
   // animation
   app.ticker.add((delta) => {
@@ -227,7 +227,7 @@ window.onload = async () => {
       // x
       sakura.position.x +=
         Math.sin(Date.now() / 1000 + partilces[i].positionPhase) *
-        POSITOIN_PHASE_COEFFICIENT // 位相を適用
+        POSITOIN_PHASE_COEFFICIENT // calc phase
       // y
       sakura.position.y += partilces[i].speed
       // rotation
@@ -240,14 +240,14 @@ window.onload = async () => {
           SCALE_PHASE_COEFFICIENT
       )
 
-      // sakura パーティクルが横幅の画面外を越えた場合
+      // if sakura exceed the screen width
       if (sakura.position.x < 0) {
         sakura.position.x = app.screen.width
       } else if (sakura.position.x > app.screen.width) {
         sakura.position.x = 0
       }
 
-      // sakura パーティクルが縦幅の下端を越えた場合
+      // if sakura exceed the screen bottom line
       if (sakura.position.y - sakura.height > app.screen.height) {
         sakura.position.y = sakura.height * -1
       }
@@ -265,15 +265,15 @@ window.onload = async () => {
     }
 
     // gui: zIndex sort
-    if (guiObject.sortChildren.sort !== isSort) {
-      isSort = guiObject.sortChildren.sort
+    if (guiObject.sortParameters.isSakuraFront !== isSakuraFront) {
+      isSakuraFront = guiObject.sortParameters.isSakuraFront
 
-      if (isSort) {
-        if (spineAnimation) spineAnimation.zIndex = 2
-        particleContainer.zIndex = 1
-      } else {
+      if (isSakuraFront) {
         if (spineAnimation) spineAnimation.zIndex = 1
         particleContainer.zIndex = 2
+      } else {
+        if (spineAnimation) spineAnimation.zIndex = 2
+        particleContainer.zIndex = 1
       }
     }
   })
@@ -296,6 +296,7 @@ window.onload = async () => {
         spineAnimation.x = app.screen.width / 2
         spineAnimation.y = app.screen.height + 2
 
+        // fix scale
         const scaleRatio =
           1 / (spineAnimationHeight / (app.screen.height * 0.8))
         spineAnimation.scale.set(scaleRatio >= 1 ? 1 : scaleRatio)
