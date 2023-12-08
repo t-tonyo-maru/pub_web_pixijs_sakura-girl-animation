@@ -1,9 +1,14 @@
+// lib
 import 'pixi-spine'
-
 import * as PIXI from 'pixi.js'
 import { Spine } from 'pixi-spine'
 import { GodrayFilter } from '@pixi/filter-godray'
 import GUI from 'lil-gui'
+// reset css
+import './style.css'
+// assets
+import backgroundImg from './assets/images/background.jpg'
+import sakuraHanabira from './assets/images/sakura_hanabira.png'
 
 // types
 type Sakura = {
@@ -19,13 +24,13 @@ const MAX_PARTICLE_COUNT = 100
 // coefficient
 const SCALE_PHASE_COEFFICIENT = 0.16
 const POSITOIN_PHASE_COEFFICIENT = 3
-// assets url
-const assetsUrl =
-  process.env.NODE_ENV === 'production'
-    ? '/pub_web_pixijs_sakura-girl-animation/assets'
-    : '/assets'
-// sort children flag
+// assets file
+const assetsUrl = import.meta.env.PROD
+  ? '/pub_web_pixijs_sakura-girl-animation/assets'
+  : '/assets'
+// container childen zIndex
 let isSakuraFront = true
+// spine animation data
 let spineAnimationHeight = 0
 
 window.onload = async () => {
@@ -37,12 +42,12 @@ window.onload = async () => {
     resizeTo: window,
     resolution: pixelRatio / 1
   })
-  const pixiWrapper = document.querySelector('.pixi') as HTMLElement
+  const pixiWrapper = document.querySelector('#app') as HTMLElement
   pixiWrapper.appendChild(app.view as HTMLCanvasElement)
 
   // background
   const aspectRatio = app.screen.width / app.screen.height
-  const background = PIXI.Sprite.from(`${assetsUrl}/images/background.jpg`)
+  const background = PIXI.Sprite.from(backgroundImg)
   background.anchor.set(0.5)
   background.position.set(app.screen.width / 2, app.screen.height / 2)
   background.scale.set(aspectRatio >= 1 ? aspectRatio : 1 / aspectRatio)
@@ -56,9 +61,7 @@ window.onload = async () => {
     alpha: true
   })
   const partilces: Sakura[] = []
-  const sakuraTexture = PIXI.Texture.from(
-    `${assetsUrl}/images/sakura_hanabira.png`
-  )
+  const sakuraTexture = PIXI.Texture.from(sakuraHanabira)
   for (let i = 0; i < MAX_PARTICLE_COUNT; i++) {
     const scalePhase = Math.random() * Math.PI * 2
 
@@ -89,6 +92,8 @@ window.onload = async () => {
     `${assetsUrl}/spine-data/model.json`
   )
     .then((res) => {
+      console.log('res:', res)
+
       const animation = new Spine(res.spineData)
 
       // position.set
@@ -129,10 +134,10 @@ window.onload = async () => {
   container.sortableChildren = true
   container.filters = [godrayFilter]
 
-  container.addChild(background as PIXI.DisplayObject)
-  container.addChild(particleContainer as PIXI.DisplayObject)
+  container.addChild(background)
+  container.addChild(particleContainer)
   container.addChild(spineAnimation as PIXI.DisplayObject)
-  app.stage.addChild(container as PIXI.DisplayObject)
+  app.stage.addChild(container)
 
   // zIndex sort
   if (spineAnimation) spineAnimation.zIndex = 1
@@ -219,7 +224,7 @@ window.onload = async () => {
 
     // update sakura particle
     for (let i = particleContainer.children.length - 1; i >= 0; i--) {
-      const sakura = particleContainer.children[i] as PIXI.Sprite
+      const sakura = particleContainer.children[i]
       // x
       sakura.position.x +=
         Math.sin(Date.now() / 1000 + partilces[i].positionPhase) *
@@ -309,3 +314,23 @@ window.onload = async () => {
 const randRange = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
+
+// document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
+//   <div>
+//     <a href="https://vitejs.dev" target="_blank">
+//       <img src="${viteLogo}" class="logo" alt="Vite logo" />
+//     </a>
+//     <a href="https://www.typescriptlang.org/" target="_blank">
+//       <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
+//     </a>
+//     <h1>Vite + TypeScript</h1>
+//     <div class="card">
+//       <button id="counter" type="button"></button>
+//     </div>
+//     <p class="read-the-docs">
+//       Click on the Vite and TypeScript logos to learn more
+//     </p>
+//   </div>
+// `
+
+// setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
